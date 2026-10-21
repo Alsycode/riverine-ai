@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>riverine.ai — Where Regeneration Fuels Future Thinking</title>
+<meta name="theme-color" content="#03080B" />
+<meta name="description" content="riverine.ai — Living waterways reveal a hidden logic of renewal. Nature's patterns guide more caring AI." />
+<style>
+  /* ============ FONTS ============ */
+  @font-face {
+    font-family: "RV Display";
+    src: url("assets/fonts/rv-display.woff2") format("woff2");
+    font-weight: 300;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "RV Brand";
+    src: url("assets/fonts/rv-brand.woff2") format("woff2");
+    font-weight: 600;
+    font-display: block;
+  }
+  @font-face {
+    font-family: "RV Text";
+    src: url("assets/fonts/rv-text.woff2") format("woff2");
+    font-weight: 400;
+    font-display: block;
+  }
+
+  :root {
+    --u: max(0.62px, min(100vw/1280, 100dvh/960));
+    --shade-r: 3; --shade-g: 8; --shade-b: 11;
+    --ink: #F5FAF6;
+    --ink-2: #ECF1EF;
+    --teal: #88DECC;
+    --icon-teal: #7EC4B5;
+    --chevron: #7CCBBA;
+    --moth: #315352;
+    --cream: #EEF1EA;
+    --pine: #122B2A;
+    --logo-disc: #030909;
+    --font-display: "RV Display", "Poppins", "Helvetica Neue", Arial, sans-serif;
+    --font-brand: "RV Brand", "Urbanist", "Helvetica Neue", Arial, sans-serif;
+    --font-text: "RV Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #03080B; }
+  body { font-family: var(--font-text); }
+  a { text-decoration: none; color: inherit; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* ============ STAGE ============ */
+  .stage {
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    background: #03080B;
+    isolation: isolate;
+  }
+
+  .stage video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @media (min-aspect-ratio: 16/9) {
+    .stage video { object-position: 50% 24%; }
+  }
+
+  /* ============ SHADE LAYERS ============ */
+  .shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .shade--h {
+    background: linear-gradient(to right,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .683) 0%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .595) 20%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .458) 40%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .221) 60%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .039) 80%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .054) 100%);
+  }
+  .shade--v {
+    background: linear-gradient(to bottom,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .060) 0%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .023) 20%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .152) 40%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .300) 60%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .394) 80%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .632) 100%);
+  }
+  .shade--corner {
+    background: radial-gradient(ellipse 93.8% 41.3% at 0% 100%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), 1) 0%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), 0) 100%);
+  }
+
+  /* ============ CONTENT LAYER ============ */
+  .content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  [data-anim] { opacity: 0; }
+  .no-anim [data-anim] { opacity: 1; }
+
+  /* ---- Top left logo pill ---- */
+  .logo-pill {
+    position: absolute;
+    top: calc(28 * var(--u));
+    left: calc(28 * var(--u));
+    width: calc(104 * var(--u));
+    height: calc(46 * var(--u));
+    border-radius: calc(23 * var(--u));
+    background: rgba(150, 220, 130, 0.035);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    gap: calc(6 * var(--u));
+    padding: 0 calc(8 * var(--u));
+  }
+  .logo-disc {
+    width: calc(46 * var(--u));
+    height: calc(46 * var(--u));
+    min-width: calc(46 * var(--u));
+    border-radius: 50%;
+    background: var(--logo-disc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-disc svg { width: 62%; height: 62%; }
+  .logo-moth { width: calc(28 * var(--u)); height: calc(22 * var(--u)); flex-shrink: 0; }
+
+  .tree-path { fill: none; stroke: #7CC6B5; stroke-width: 1.6; stroke-linecap: round; }
+
+  /* ---- Nav pill ---- */
+  .nav-pill {
+    position: absolute;
+    top: calc(28 * var(--u));
+    left: 50%;
+    transform: translateX(calc(-50% + 90 * var(--u)));
+    width: calc(442 * var(--u));
+    height: calc(47 * var(--u));
+    border-radius: calc(23.5 * var(--u));
+    background: #000;
+    display: flex;
+    align-items: center;
+    padding: 0 calc(10 * var(--u));
+  }
+  .nav-links { display: flex; align-items: center; gap: calc(22 * var(--u)); flex: 1; padding-left: calc(10 * var(--u)); }
+  .nav-link {
+    font-family: var(--font-text);
+    font-size: calc(14 * var(--u));
+    color: var(--ink-2);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: calc(5 * var(--u));
+    transition: color .2s ease;
+  }
+  .nav-link:hover, .nav-link:focus-visible { color: var(--teal); }
+  .nav-link.is-current { color: var(--teal); font-weight: 600; }
+  .nav-chevron { width: calc(8 * var(--u)); height: calc(5 * var(--u)); }
+  .nav-chevron path { fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+  .partner-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(8 * var(--u));
+    background: var(--cream);
+    color: var(--pine);
+    border-radius: calc(18 * var(--u));
+    padding: calc(5 * var(--u)) calc(6 * var(--u)) calc(5 * var(--u)) calc(14 * var(--u));
+    font-size: calc(13.5 * var(--u));
+    font-weight: 600;
+    margin-left: auto;
+  }
+  .partner-disc {
+    width: calc(26 * var(--u));
+    height: calc(26 * var(--u));
+    border-radius: 50%;
+    background: var(--pine);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease;
+  }
+  .partner-pill:hover .partner-disc, .partner-pill:focus-visible .partner-disc { background: #26504d; }
+  .partner-arrow { width: calc(7 * var(--u)); height: calc(7 * var(--u)); }
+  .partner-arrow path { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ---- Sound button ---- */
+  .sound-btn {
+    position: absolute;
+    top: calc(28 * var(--u));
+    right: calc(28 * var(--u));
+    width: calc(48 * var(--u));
+    height: calc(48 * var(--u));
+    border-radius: 50%;
+    background: rgba(3, 8, 11, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sound-btn svg { width: 54%; height: 54%; }
+  .sound-wave { fill: none; stroke: var(--icon-teal); stroke-width: 1.6; stroke-linecap: round; transition: opacity .25s ease; }
+  .sound-body { fill: var(--icon-teal); }
+  .sound-btn[aria-pressed="false"] .sound-wave { opacity: .25; }
+
+  /* ---- Menu button (mobile) ---- */
+  .menu-btn {
+    display: none;
+    position: absolute;
+    top: calc(28 * var(--u));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #000;
+    border: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .menu-btn svg { width: 18px; height: 13px; }
+  .menu-bar { fill: none; stroke: var(--ink); stroke-width: 1.6; stroke-linecap: round; transform-origin: 9px 6.5px; transition: transform .3s ease, opacity .3s ease; }
+  .menu-btn[aria-expanded="true"] .bar1 { transform: translateY(5.5px) rotate(45deg); }
+  .menu-btn[aria-expanded="true"] .bar2 { opacity: 0; }
+  .menu-btn[aria-expanded="true"] .bar3 { transform: translateY(-5.5px) rotate(-45deg); }
+
+  /* ---- Mobile nav panel ---- */
+  .nav-panel {
+    display: none;
+  }
+
+  /* ---- Hero bottom-left ---- */
+  .hero {
+    position: absolute;
+    left: calc(28 * var(--u));
+    bottom: calc(60 * var(--u));
+    max-width: calc(620 * var(--u));
+  }
+  .brand {
+    font-family: var(--font-brand);
+    font-weight: 600;
+    color: var(--teal);
+    font-size: calc(15 * var(--u));
+    letter-spacing: 0.04em;
+    display: block;
+    margin-bottom: calc(14 * var(--u));
+  }
+  .headline {
+    font-family: var(--font-display);
+    font-weight: 300;
+    color: var(--ink);
+    font-size: calc(52 * var(--u));
+    line-height: 1.06;
+    margin: 0;
+  }
+  .headline .line {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  .headline .line span { display: inline-block; }
+  .headline .line:nth-child(1) span { letter-spacing: 0.01em; }
+  .headline .line:nth-child(2) span { letter-spacing: -0.005em; }
+  .headline .line:nth-child(3) span { letter-spacing: 0em; }
+
+  .lede {
+    font-family: var(--font-text);
+    color: var(--ink-2);
+    font-size: calc(15.5 * var(--u));
+    line-height: 1.5;
+    margin: calc(22 * var(--u)) 0 0;
+    opacity: .85;
+  }
+  .lede span { display: block; }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: calc(26 * var(--u));
+    margin-top: calc(32 * var(--u));
+    flex-wrap: nowrap;
+  }
+  .cta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(10 * var(--u));
+    background: var(--cream);
+    color: var(--pine);
+    border-radius: calc(26 * var(--u));
+    padding: calc(8 * var(--u)) calc(8 * var(--u)) calc(8 * var(--u)) calc(22 * var(--u));
+    font-size: calc(15 * var(--u));
+    font-weight: 600;
+  }
+  .cta-disc {
+    width: calc(34 * var(--u));
+    height: calc(34 * var(--u));
+    border-radius: 50%;
+    background: var(--pine);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s ease;
+  }
+  .cta-pill:hover .cta-disc, .cta-pill:focus-visible .cta-disc { background: #26504d; }
+  .cta-arrow { width: calc(9 * var(--u)); height: calc(9 * var(--u)); }
+  .cta-arrow path { fill: none; stroke: #fff; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+  .link-cue {
+    font-size: calc(15 * var(--u));
+    color: var(--ink-2);
+    border-bottom: 1px solid rgba(236, 241, 239, 0.35);
+    padding: calc(6 * var(--u)) 2px;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .link-cue:hover, .link-cue:focus-visible { color: var(--teal); border-color: var(--teal); }
+
+  /* ---- Scroll cue bottom right ---- */
+  .scroll-cue {
+    position: absolute;
+    right: calc(28 * var(--u));
+    bottom: calc(40 * var(--u));
+    display: inline-flex;
+    align-items: center;
+    gap: calc(8 * var(--u));
+    font-size: calc(13 * var(--u));
+    color: var(--ink-2);
+    padding: calc(6 * var(--u));
+  }
+  .scroll-cue:hover, .scroll-cue:focus-visible { color: var(--teal); }
+  .scroll-chevron { width: calc(10 * var(--u)); height: calc(6 * var(--u)); }
+  .scroll-chevron path { fill: none; stroke: var(--chevron); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+  :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 649.98px), (max-height: 500px) {
+    :root { --u: clamp(0.94px, calc(100vw / 390), 1.2px); }
+    .stage video { object-position: 63% 50%; }
+    .shade--h { background: linear-gradient(to right,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .5) 0%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .4) 20%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .3) 40%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .15) 60%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .03) 80%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .04) 100%); }
+    .shade--v { background: linear-gradient(to bottom,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .05) 0%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .05) 20%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .25) 40%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .45) 60%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .6) 80%,
+      rgba(var(--shade-r), var(--shade-g), var(--shade-b), .82) 100%); }
+    .shade--corner { display: none; }
+    .headline { letter-spacing: normal; }
+    .headline .line:nth-child(1) span { letter-spacing: 0.01em; }
+    .headline .line:nth-child(2) span { letter-spacing: -0.01em; }
+    .headline .line:nth-child(3) span { letter-spacing: 0em; }
+    .actions { flex-wrap: wrap; }
+    .link-cue { padding: 12px 2px; }
+    .scroll-cue { padding: 12px; }
+  }
+
+  @media (max-width: 649.98px) {
+    .nav-pill { display: none; }
+    .menu-btn { display: flex; }
+    .sound-btn { right: clamp(18px, 5.6vw, 32px); top: clamp(18px, 5.6vw, 32px); }
+    .logo-pill { top: clamp(18px, 5.6vw, 32px); left: clamp(18px, 5.6vw, 32px); }
+    .menu-btn { top: clamp(18px, 5.6vw, 32px); }
+
+    .nav-panel {
+      display: block;
+      position: absolute;
+      top: calc(clamp(18px, 5.6vw, 32px) + 58px);
+      left: clamp(18px, 5.6vw, 32px);
+      right: clamp(18px, 5.6vw, 32px);
+      background: #000;
+      border-radius: 18px;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .3s ease;
+      z-index: 5;
+    }
+    .nav-panel.is-open { max-height: 480px; }
+    .nav-panel-links { display: flex; flex-direction: column; padding: 8px; }
+    .nav-panel-links a {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 17px;
+      color: var(--ink-2);
+      border-radius: 10px;
+    }
+    .nav-panel-links a.is-current { color: var(--teal); }
+    .nav-panel-links a:hover, .nav-panel-links a:focus-visible { background: rgba(255,255,255,0.06); }
+    .nav-panel .partner-pill { margin: 6px 14px 14px; justify-content: center; }
+
+    .hero { left: clamp(18px, 5.6vw, 32px); right: clamp(18px, 5.6vw, 32px); bottom: calc(clamp(18px, 5.6vw, 32px) + 70px); max-width: none; }
+    .headline { font-size: min(clamp(32px, 10.4vw, 60px), calc((100vw - 2 * clamp(18px, 5.6vw, 32px)) / 8.7)); }
+    .scroll-cue { bottom: clamp(18px, 5.6vw, 32px); right: clamp(18px, 5.6vw, 32px); }
+    .stage { padding-bottom: env(safe-area-inset-bottom); }
+  }
+
+  @media (max-height: 500px) and (min-aspect-ratio: 1/1) {
+    :root { --u: clamp(0.82px, calc(100dvh / 415), 0.94px); }
+    .stage video { object-position: 50% 30%; }
+    .hero { bottom: calc(24 * var(--u)); }
+    .headline { font-size: clamp(28px, 10dvh, 44px); }
+    .actions { flex-wrap: nowrap; }
+  }
+  @media (max-height: 500px) and (min-aspect-ratio: 1/1) and (min-width: 650px) {
+    .nav-pill { display: flex; }
+    .menu-btn { display: none; }
+    .nav-panel { display: none !important; }
+  }
+  @media (max-height: 500px) and (min-aspect-ratio: 1/1) and (max-width: 649.98px) {
+    .nav-panel.is-open .nav-panel-links { display: grid; grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (min-width: 650px) and (max-width: 1100px) and (min-height: 501px) {
+    :root { --u: 0.94px; }
+  }
+  @media (min-width: 650px) and (max-aspect-ratio: 4/5) and (min-height: 501px) {
+    :root { --u: 0.94px; }
+    .hero { transform: scale(1.1); transform-origin: bottom left; }
+    .scroll-cue { transform: scale(1.1); transform-origin: bottom right; }
+    .stage video { object-position: 58% 50%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<section class="stage" id="hero-stage">
+  <video autoplay muted loop playsinline aria-hidden="true">
+    <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20261005_182346_a590ff3b-72e5-41ce-8f69-a8c823eaecaa.mp4" type="video/mp4" />
+  </video>
+
+  <div class="shade shade--h"></div>
+  <div class="shade shade--v"></div>
+  <div class="shade shade--corner"></div>
+
+  <div class="content">
+
+    <!-- Logo pill -->
+    <a class="logo-pill" href="#" aria-label="riverine.ai home" data-anim="logo">
+      <span class="logo-disc">
+        <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g class="tree-group">
+            <path class="tree-path tp" d="M24.2 37V24"/>
+            <path class="tree-path tp" d="M19.8 39.3c1.2-1.9 2.8-2.7 4.4-2.7s3.2.8 4.4 2.7"/>
+            <path class="tree-path tp" d="M23.8 30.2c-2.8-.6-5.5-2.6-7.2-5-2-1.8-5.2-2-7-4.2-1.4-1.8-1.4-4.2 0-6 2-3 5.8-5.2 8.8-6.2 1.4-.5 2.8-1 4.2-1.3"/>
+            <path class="tree-path tp" d="M14.8 23V13.2c0-1.4.8-2.6 2.4-3.4"/>
+            <path class="tree-path tp" d="M24 24.2c-1.8-1.8-3.2-3.8-3.7-6.4-.5-2.6-.6-5.2-.3-7.2"/>
+            <path class="tree-path tp" d="M24.3 23.2c1.5-3 3.5-6.4 4.3-10.2.4-2.6 1.2-4.1 2.8-4.3H35"/>
+            <path class="tree-path tp" d="M24.6 25.7c3-.7 5.8-2.1 7.4-4.5 1.2-1.8 1.4-3.8 2.8-5.2 1.4-1.4 3.2-2.1 5.2-2.4"/>
+          </g>
+        </svg>
+      </span>
+      <svg class="logo-moth" viewBox="0 0 39 30" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="#315352" d="M19.5 12.4C17.5 9.5 14 5 10.8 3 9.6 2.4 8 2.2 6 2.3 4.2 2.4 3.1 3 3 4.8L3.1 9.8C3.2 12.4 5 15 8.3 17.3 6.6 19.5 5.6 21.8 5.4 24.2 5.2 26.2 5.8 27.6 7.3 28 8.8 28.3 10.2 27.3 11.4 25.8 14.2 22.6 17.2 19.8 19.5 17.1Z"/>
+        <path fill="#315352" transform="matrix(-1 0 0 1 39 0)" d="M19.5 12.4C17.5 9.5 14 5 10.8 3 9.6 2.4 8 2.2 6 2.3 4.2 2.4 3.1 3 3 4.8L3.1 9.8C3.2 12.4 5 15 8.3 17.3 6.6 19.5 5.6 21.8 5.4 24.2 5.2 26.2 5.8 27.6 7.3 28 8.8 28.3 10.2 27.3 11.4 25.8 14.2 22.6 17.2 19.8 19.5 17.1Z"/>
+      </svg>
+    </a>
+
+    <!-- Desktop nav pill -->
+    <nav class="nav-pill" aria-label="Primary" data-anim="nav">
+      <div class="nav-links">
+        <a class="nav-link" href="#work">Work</a>
+        <a class="nav-link is-current" href="#regenerate">Regenerate
+          <svg class="nav-chevron" viewBox="0 0 11 6" aria-hidden="true"><path d="M.7.7 5.5 5.3 10.3.7"/></svg>
+        </a>
+        <a class="nav-link" href="#nature">Nature</a>
+        <a class="nav-link" href="#earth">Earth</a>
+        <a class="nav-link" href="#news">News</a>
+      </div>
+      <a class="partner-pill" href="#partner">
+        Partner
+        <span class="partner-disc">
+          <svg class="partner-arrow" viewBox="0 0 4 7" aria-hidden="true"><path d="M.5.5 3.5 3.5.5 6.5"/></svg>
+        </span>
+      </a>
+    </nav>
+
+    <!-- Mobile menu button -->
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" aria-controls="navPanel" data-anim="nav">
+      <svg viewBox="0 0 18 13" aria-hidden="true">
+        <path class="menu-bar bar1" d="M1 1h16"/>
+        <path class="menu-bar bar2" d="M1 6h16"/>
+        <path class="menu-bar bar3" d="M1 11h16"/>
+      </svg>
+    </button>
+
+    <!-- Mobile nav panel -->
+    <div class="nav-panel" id="navPanel">
+      <div class="nav-panel-links">
+        <a href="#work">Work</a>
+        <a class="is-current" href="#regenerate">Regenerate</a>
+        <a href="#nature">Nature</a>
+        <a href="#earth">Earth</a>
+        <a href="#news">News</a>
+      </div>
+      <a class="partner-pill" href="#partner">
+        Partner
+        <span class="partner-disc">
+          <svg class="partner-arrow" viewBox="0 0 4 7" aria-hidden="true"><path d="M.5.5 3.5 3.5.5 6.5"/></svg>
+        </span>
+      </a>
+    </div>
+
+    <!-- Sound button -->
+    <button class="sound-btn" id="soundBtn" aria-label="Ambient river sound" aria-pressed="true" data-anim="sound">
+      <svg viewBox="0 0 39 32" aria-hidden="true">
+        <path class="sound-body" d="M14.6 19.6h3.6l5.9-4.9v18.6l-5.9-4.9h-3.6z"/>
+        <path class="sound-wave" d="M27.6 19.6c1.9 2.8 1.9 6 0 8.8"/>
+        <path class="sound-wave" d="M31.2 16.2c3.4 4.9 3.4 10.7 0 15.6"/>
+      </svg>
+    </button>
+
+    <!-- Hero copy -->
+    <div class="hero">
+      <a class="brand" href="#" aria-hidden="true" data-anim="brand">riverine.ai</a>
+      <h1 class="headline" aria-label="Where Regeneration Fuels Future Thinking">
+        <span class="line" data-anim="line1"><span>Where</span></span>
+        <span class="line" data-anim="line2"><span>Regeneration Fuels</span></span>
+        <span class="line" data-anim="line3"><span>Future Thinking</span></span>
+      </h1>
+      <p class="lede" data-anim="lede1">
+        <span data-anim="lede-line1">Living waterways reveal a hidden logic of renewal</span>
+        <span data-anim="lede-line2">Nature's patterns guide more caring AI</span>
+      </p>
+      <div class="actions">
+        <a class="cta-pill" href="#future" data-anim="cta">
+          Shape our Future
+          <span class="cta-disc">
+            <svg class="cta-arrow" viewBox="0 0 5 8" aria-hidden="true"><path d="M.6.6 4 4 .6 7.4"/></svg>
+          </span>
+        </a>
+        <a class="link-cue" href="#rivers" data-anim="link">Discover the Rivers</a>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <a class="scroll-cue" href="#details" data-anim="cue">
+      Scroll for Details
+      <svg class="scroll-chevron" viewBox="0 0 11 6" aria-hidden="true"><path d="M.7.7 5.5 5.3 10.3.7"/></svg>
+    </a>
+
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- REST OF LANDING PAGE                                          -->
+<!-- ============================================================ -->
+<style>
+  .page { background: #03080B; color: var(--ink-2); }
+  .section { padding: 110px clamp(24px, 6vw, 96px); position: relative; }
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-text); font-size: 13px; color: var(--teal);
+    text-transform: uppercase; letter-spacing: .12em; margin-bottom: 18px;
+  }
+  .section-tag i { font-style: normal; opacity: .6; }
+  .section h2 {
+    font-family: var(--font-display); font-weight: 300;
+    font-size: clamp(32px, 4.2vw, 56px); color: var(--ink);
+    margin: 0 0 20px; line-height: 1.1;
+  }
+  .section h2 b { color: var(--teal); font-weight: 300; }
+  .section p.lead {
+    font-size: clamp(15px, 1.4vw, 18px); line-height: 1.6; color: var(--ink-2);
+    opacity: .8; max-width: 640px; margin: 0;
+  }
+  .grid { display: grid; gap: 28px; margin-top: 56px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 860px) { .grid-3, .grid-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: rgba(150, 220, 130, 0.035);
+    border: 1px solid rgba(236, 241, 239, 0.08);
+    border-radius: 20px;
+    padding: 32px 28px;
+    backdrop-filter: blur(6px);
+  }
+  .card .num { font-family: var(--font-brand); color: var(--teal); font-size: 13px; letter-spacing: .1em; margin-bottom: 14px; display: block; }
+  .card h3 { font-family: var(--font-display); font-weight: 300; color: var(--ink); font-size: 22px; margin: 0 0 10px; }
+  .card p { font-size: 14.5px; line-height: 1.6; color: var(--ink-2); opacity: .75; margin: 0; }
+
+  #nature { background: linear-gradient(180deg, #03080B 0%, #061513 100%); }
+  #earth { }
+  #work-section { background: #040B0D; }
+  #news { }
+
+  .stat-row { display: flex; gap: 48px; flex-wrap: wrap; margin-top: 50px; }
+  .stat { min-width: 140px; }
+  .stat .val { font-family: var(--font-display); font-weight: 300; font-size: 42px; color: var(--teal); }
+  .stat .lbl { font-size: 13px; color: var(--ink-2); opacity: .7; text-transform: uppercase; letter-spacing: .08em; margin-top: 6px; }
+
+  .news-list { margin-top: 48px; display: flex; flex-direction: column; }
+  .news-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 26px 0; border-top: 1px solid rgba(236,241,239,0.1);
+    gap: 24px; flex-wrap: wrap;
+  }
+  .news-item:last-child { border-bottom: 1px solid rgba(236,241,239,0.1); }
+  .news-item .date { font-size: 13px; color: var(--teal); min-width: 110px; }
+  .news-item h3 { font-family: var(--font-display); font-weight: 300; color: var(--ink); font-size: 19px; margin: 0; flex: 1; }
+  .news-item .tag { font-size: 12px; color: var(--ink-2); opacity: .6; }
+
+  #future {
+    text-align: center;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(136,222,204,0.08) 0%, transparent 70%);
+  }
+  #future h2 { margin: 0 auto 18px; }
+  #future p.lead { margin: 0 auto 40px; }
+  .future-cta { display: inline-flex; }
+
+  footer {
+    padding: 60px clamp(24px, 6vw, 96px) 40px;
+    border-top: 1px solid rgba(236,241,239,0.08);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+  }
+  footer .foot-brand { font-family: var(--font-brand); color: var(--teal); font-weight: 600; font-size: 16px; }
+  footer .foot-links { display: flex; gap: 28px; flex-wrap: wrap; }
+  footer a.foot-link { font-size: 14px; color: var(--ink-2); opacity: .75; }
+  footer a.foot-link:hover { color: var(--teal); opacity: 1; }
+  footer .foot-copy { font-size: 13px; color: var(--ink-2); opacity: .5; width: 100%; margin-top: 10px; }
+</style>
+
+<div class="page">
+
+  <section class="section" id="rivers">
+    <span class="section-tag"><i>//</i> 01 — Philosophy</span>
+    <h2>Rivers don't optimize.<br/>They <b>adapt</b>.</h2>
+    <p class="lead">A river never takes the fastest path — it takes the path that lasts. Every bend, braid and backwater is feedback made visible. riverine.ai studies these patterns of flow, repair and renewal, and builds them into the way our systems learn.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <span class="num">01</span>
+        <h3>Flow over force</h3>
+        <p>Systems that route around friction instead of pushing through it, the way water finds the lowest-energy path downstream.</p>
+      </div>
+      <div class="card">
+        <span class="num">02</span>
+        <h3>Feedback over forecast</h3>
+        <p>Riverbeds are shaped by constant small corrections, not a single plan. Our models are trained to listen and re-shape continuously.</p>
+      </div>
+      <div class="card">
+        <span class="num">03</span>
+        <h3>Renewal over extraction</h3>
+        <p>A healthy watershed gives back more than it takes. We design AI that leaves the data, the land and the people it touches better off.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="nature">
+    <span class="section-tag"><i>//</i> 02 — Nature</span>
+    <h2>Nature already solved<br/>the hard problems.</h2>
+    <p class="lead">Four billion years of trial and error produced systems that self-heal, self-balance and self-improve without a central controller. We reverse-engineer that logic for machine intelligence.</p>
+    <div class="stat-row">
+      <div class="stat"><div class="val">4B+</div><div class="lbl">years of R&D we borrow from</div></div>
+      <div class="stat"><div class="val">1,200+</div><div class="lbl">watershed patterns catalogued</div></div>
+      <div class="stat"><div class="val">38</div><div class="lbl">ecosystems modelled</div></div>
+      <div class="stat"><div class="val">0</div><div class="lbl">net extraction, by design</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="work-section">
+    <span class="section-tag"><i>//</i> 03 — Work</span>
+    <h2>What we build</h2>
+    <p class="lead">Three practices, one hydrology-informed method — applied to the problems that matter most to the systems we all depend on.</p>
+    <div class="grid grid-3">
+      <div class="card">
+        <span class="num">Practice</span>
+        <h3>Adaptive Models</h3>
+        <p>Decision systems that reroute around failure the way a delta reroutes around silt — tested against real-world disruption, not just benchmarks.</p>
+      </div>
+      <div class="card">
+        <span class="num">Practice</span>
+        <h3>Regenerative Data</h3>
+        <p>Data pipelines that return value to the communities and environments they're sourced from, closing the loop instead of draining it.</p>
+      </div>
+      <div class="card">
+        <span class="num">Practice</span>
+        <h3>Ecosystem Interfaces</h3>
+        <p>Tools that let scientists, policymakers and engineers read a living system's state in real time — and act before the damage sets in.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="earth">
+    <span class="section-tag"><i>//</i> 04 — Earth</span>
+    <h2>Measured against<br/>the planet, not the market.</h2>
+    <p class="lead">Every model we ship is weighed against a simple question: does this leave the watershed, the soil and the people around it more resilient than before? If the answer is no, it doesn't ship.</p>
+    <div class="grid grid-2">
+      <div class="card">
+        <span class="num">Commitment</span>
+        <h3>Carbon-aware compute</h3>
+        <p>Training and inference scheduled against regional grid carbon intensity, not just cost.</p>
+      </div>
+      <div class="card">
+        <span class="num">Commitment</span>
+        <h3>Open watershed data</h3>
+        <p>Non-sensitive environmental datasets we curate are released back to the research commons.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="news">
+    <span class="section-tag"><i>//</i> 05 — News</span>
+    <h2>Latest from riverine.ai</h2>
+    <div class="news-list">
+      <div class="news-item">
+        <span class="date">Oct 2026</span>
+        <h3>riverine.ai partners with three river-basin authorities on flood-adaptive modelling</h3>
+        <span class="tag">Partnership</span>
+      </div>
+      <div class="news-item">
+        <span class="date">Aug 2026</span>
+        <h3>Our regenerative-data framework is now open for research use</h3>
+        <span class="tag">Research</span>
+      </div>
+      <div class="news-item">
+        <span class="date">May 2026</span>
+        <h3>Why we measure models against watersheds, not quarters</h3>
+        <span class="tag">Essay</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="future">
+    <span class="section-tag"><i>//</i> 06 — Partner</span>
+    <h2>Shape the future<br/>with us.</h2>
+    <p class="lead">Whether you steward a watershed, a dataset or a decision — we'd like to hear what you're trying to regenerate.</p>
+    <div class="future-cta">
+      <a class="cta-pill" href="#partner">
+        Shape our Future
+        <span class="cta-disc">
+          <svg class="cta-arrow" viewBox="0 0 5 8" aria-hidden="true"><path d="M.6.6 4 4 .6 7.4"/></svg>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <footer id="partner">
+    <span class="foot-brand">riverine.ai</span>
+    <div class="foot-links">
+      <a class="foot-link" href="#work">Work</a>
+      <a class="foot-link" href="#nature">Nature</a>
+      <a class="foot-link" href="#earth">Earth</a>
+      <a class="foot-link" href="#news">News</a>
+      <a class="foot-link" href="#future">Partner</a>
+    </div>
+    <span class="foot-copy">© 2026 riverine.ai — Where regeneration fuels future thinking.</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var root = document.documentElement;
+
+  /* ---------- Mobile menu ---------- */
+  var menuBtn = document.getElementById("menuBtn");
+  var navPanel = document.getElementById("navPanel");
+
+  function openMenu() {
+    navPanel.classList.add("is-open");
+    menuBtn.setAttribute("aria-expanded", "true");
+    var firstLink = navPanel.querySelector("a");
+    if (firstLink) firstLink.focus();
+  }
+  function closeMenu(returnFocus) {
+    navPanel.classList.remove("is-open");
+    menuBtn.setAttribute("aria-expanded", "false");
+    if (returnFocus) menuBtn.focus();
+  }
+  if (menuBtn) {
+    menuBtn.addEventListener("click", function () {
+      var expanded = menuBtn.getAttribute("aria-expanded") === "true";
+      if (expanded) closeMenu(false); else openMenu();
+    });
+  }
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && menuBtn && menuBtn.getAttribute("aria-expanded") === "true") {
+      closeMenu(true);
+    }
+  });
+  document.addEventListener("click", function (e) {
+    if (!navPanel || !menuBtn) return;
+    if (menuBtn.getAttribute("aria-expanded") !== "true") return;
+    if (navPanel.contains(e.target) || menuBtn.contains(e.target)) return;
+    closeMenu(false);
+  });
+  if (navPanel) {
+    navPanel.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", function () { closeMenu(false); });
+    });
+  }
+
+  /* ---------- Sound toggle (no audio file) ---------- */
+  var soundBtn = document.getElementById("soundBtn");
+  if (soundBtn) {
+    soundBtn.addEventListener("click", function () {
+      var pressed = soundBtn.getAttribute("aria-pressed") === "true";
+      soundBtn.setAttribute("aria-pressed", String(!pressed));
+    });
+  }
+
+  /* ---------- Entrance animation ---------- */
+  var video = document.querySelector(".stage video");
+  var ctaHeightRatio = 1;
+  function computeCtaRatio() {
+    var cta = document.querySelector(".cta-pill");
+    if (cta) {
+      var h = cta.getBoundingClientRect().height;
+      if (h > 0) ctaHeightRatio = h / 46;
+    }
+  }
+
+  function dist(px) {
+    var scale = window.innerWidth < 650 ? 0.8 : 1;
+    return Math.round(px * ctaHeightRatio * scale);
+  }
+
+  function runEntrance() {
+    if (reduceMotion) {
+      document.body.classList.add("no-anim");
+      return;
+    }
+    computeCtaRatio();
+
+    var QUART = "cubic-bezier(0.25, 1, 0.5, 1)";
+    var EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";
+    var GROW = "cubic-bezier(0.45, 0, 0.2, 1)";
+
+    var animated = [];
+    function play(el, keyframes, options) {
+      if (!el) return;
+      var anim = el.animate(keyframes, Object.assign({ fill: "backwards" }, options));
+      animated.push({ el: el, anim: anim });
+      return anim;
+    }
+
+    var logo = document.querySelector('[data-anim="logo"]');
+    play(logo, [{ opacity: 0 }, { opacity: 1 }], { duration: 500, delay: 0, easing: QUART });
+
+    var treePaths = document.querySelectorAll(".tp");
+    treePaths.forEach(function (p, i) {
+      try {
+        var len = p.getTotalLength();
+        p.style.strokeDasharray = len;
+        p.style.strokeDashoffset = len;
+        play(p, [{ strokeDashoffset: len }, { strokeDashoffset: 0 }], {
+          duration: 820, delay: 80 + i * 45, easing: GROW
+        });
+      } catch (e) {}
+    });
+
+    var moth = document.querySelector(".logo-moth");
+    if (moth) {
+      moth.style.transformOrigin = "center";
+      play(moth, [{ opacity: 0, transform: "scale(0.92)" }, { opacity: 1, transform: "scale(1)" }], {
+        duration: 650, delay: 420, easing: EXPO
+      });
+    }
+
+    var navOrMenu = document.querySelector('[data-anim="nav"]');
+    play(navOrMenu, [{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "translateY(0)" }], {
+      duration: 700, delay: 120, easing: EXPO
+    });
+
+    var navLinkEls = document.querySelectorAll(".nav-links .nav-link, .nav-pill .partner-pill");
+    navLinkEls.forEach(function (el, i) {
+      play(el, [{ opacity: 0, transform: "translateY(4px)" }, { opacity: 1, transform: "translateY(0)" }], {
+        duration: 500, delay: 260 + i * 45, easing: EXPO
+      });
+    });
+
+    var sound = document.querySelector('[data-anim="sound"]');
+    play(sound, [{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "translateY(0)" }], {
+      duration: 500, delay: 200, easing: EXPO
+    });
+
+    var brand = document.querySelector('[data-anim="brand"]');
+    play(brand, [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "translateY(0)" }], {
+      duration: 650, delay: 300, easing: QUART
+    });
+
+    var lines = [
+      document.querySelector('[data-anim="line1"]'),
+      document.querySelector('[data-anim="line2"]'),
+      document.querySelector('[data-anim="line3"]')
+    ];
+    lines.forEach(function (line, i) {
+      if (!line) return;
+      var inner = line.querySelector("span");
+      play(inner, [{ opacity: 0, transform: "translateY(115%)" }, { opacity: 1, transform: "translateY(0)" }], {
+        duration: 1050, delay: 380 + i * 90, easing: GROW
+      });
+      line.style.opacity = 1;
+    });
+
+    var lede1 = document.querySelector('[data-anim="lede-line1"]');
+    var lede2 = document.querySelector('[data-anim="lede-line2"]');
+    var ledeWrap = document.querySelector('[data-anim="lede1"]');
+    if (ledeWrap) ledeWrap.style.opacity = 1;
+    play(lede1, [{ opacity: 0, transform: "translateY(" + dist(14) + "px)" }, { opacity: 1, transform: "translateY(0)" }], {
+      duration: 800, delay: 800, easing: QUART
+    });
+    play(lede2, [{ opacity: 0, transform: "translateY(" + dist(14) + "px)" }, { opacity: 1, transform: "translateY(0)" }], {
+      duration: 800, delay: 860, easing: QUART
+    });
+
+    var cta = document.querySelector('[data-anim="cta"]');
+    play(cta, [{ opacity: 0, transform: "translateY(" + dist(12) + "px)" }, { opacity: 1, transform: "translateY(0)" }], {
+      duration: 800, delay: 1000, easing: QUART
+    });
+
+    var link = document.querySelector('[data-anim="link"]');
+    play(link, [{ opacity: 0, transform: "translateY(" + dist(8) + "px)" }, { opacity: 1, transform: "translateY(0)" }], {
+      duration: 600, delay: 1100, easing: QUART
+    });
+
+    var cue = document.querySelector('[data-anim="cue"]');
+    play(cue, [{ opacity: 0, transform: "translateY(-6px)" }, { opacity: 1, transform: "translateY(0)" }], {
+      duration: 700, delay: 1250, easing: QUART
+    });
+
+    var finished = 0;
+    var total = animated.length;
+    function onDone() {
+      finished++;
+      if (finished >= total) {
+        animated.forEach(function (a) {
+          a.el.style.removeProperty("opacity");
+          a.el.style.removeProperty("transform");
+        });
+        requestAnimationFrame(function () {
+          var logoEl = document.querySelector('[data-anim="logo"]');
+          var actionsEl = document.querySelector(".actions");
+          if (logoEl) { var d = logoEl.offsetHeight; }
+          if (actionsEl) { var d2 = actionsEl.offsetHeight; }
+        });
+      }
+    }
+    animated.forEach(function (a) { a.anim.onfinish = onDone; a.anim.oncancel = onDone; });
+  }
+
+  var started = false;
+  function start() {
+    if (started) return;
+    started = true;
+    runEntrance();
+  }
+
+  if (reduceMotion) {
+    document.body.classList.add("no-anim");
+  } else {
+    var fontsReady = document.fonts ? document.fonts.ready : Promise.resolve();
+    var videoReady = new Promise(function (resolve) {
+      if (!video) return resolve();
+      if (video.readyState >= 2) return resolve();
+      video.addEventListener("loadeddata", resolve, { once: true });
+      video.addEventListener("error", resolve, { once: true });
+    });
+    Promise.all([fontsReady, videoReady]).then(start);
+    setTimeout(function () {
+      document.body.classList.add("no-anim");
+      start();
+    }, 3500);
+  }
+})();
+</script>
+
+</body>
+</html>
